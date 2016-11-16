@@ -1,16 +1,5 @@
 FROM alpine:3.4
 
-# Credits:
-#
-# - Docker Hub image:
-#   https://hub.docker.com/_/ruby/
-#
-# - Dockerfile copy pasta:
-#   https://github.com/docker-library/ruby/blob/ec068a416df98e3c01b47f07a314b12a6412cfc5/2.1/alpine/Dockerfile
-#
-# - Alpine compile fix
-#   https://github.com/rallen-temp/ruby/releases/tag/v1_9_3_PR1485
-
 # skip installing gem documentation
 RUN mkdir -p /usr/local/etc \
 	&& { \

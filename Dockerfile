@@ -1,5 +1,16 @@
 FROM alpine:3.4
 
+# Credits:
+#
+# - Docker Hub image:
+#   https://hub.docker.com/_/ruby/
+#
+# - Dockerfile copy pasta:
+#   https://github.com/docker-library/ruby/blob/ec068a416df98e3c01b47f07a314b12a6412cfc5/2.1/alpine/Dockerfile
+#
+# - Alpine compile fix
+#   https://github.com/rallen-temp/ruby/releases/tag/v1_9_3_PR1485
+
 # skip installing gem documentation
 RUN mkdir -p /usr/local/etc \
 	&& { \
@@ -51,6 +62,11 @@ RUN set -ex \
 	&& rm ruby.tar.gz \
 	\
 	&& cd /usr/src/ruby \
+	\
+    # Patch _IOC_SIZE issue on version 1.9.3.
+    && wget -O ioc_size.patch https://github.com/rallen-temp/ruby/commit/cbaaf34a0aa3c90f6a43d4383258c14a803bed12.patch \
+    && echo "a3e71a5923cd60dba4d7974fe6ac1ee7c8cf0f47c7f7c2d2dec559d3f2df36d6 ioc_size.patch" | sha256sum -c - \
+    && patch < ioc_size.patch \
 	\
 # hack in "ENABLE_PATH_CHECK" disabling to suppress:
 #   warning: Insecure world writable dir
